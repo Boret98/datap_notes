@@ -1,1 +1,6 @@
 El archivo Dockerfile de "github.com/iloob/krakend-keycloak" tenia una errata que no dejaba darle permisos al usuario 'krakend' - RUN chown krakend -R /etc/krakend
+En 'krakend-keycloak/backend/code/requirements.txt' hay que añadir las siguientes lineas:
+    python-jose
+    social-auth-core
+
+A
