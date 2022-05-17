@@ -3,4 +3,10 @@ En 'krakend-keycloak/backend/code/requirements.txt' hay que añadir las siguient
     python-jose
     social-auth-core
 
-A
+A la hora de poner el token, se le tienen que pasar argumentos en el body:
+    - client_id
+    - grant_type
+    - client_secret
+    - scope
+    - username
+    - password
