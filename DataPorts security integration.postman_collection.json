@@ -1,0 +1,511 @@
+{
+	"info": {
+		"_postman_id": "5770c547-bdd8-4841-ba8d-da291cdd9eaf",
+		"name": "DataPorts security integration",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Keycloak authentication test",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "dataports",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "4f41a9ab-d484-49bb-aa92-87aa246dedf2",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "dataports",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://158.42.33.174:8888/auth/realms/master/protocol/openid-connect/token",
+					"protocol": "http",
+					"host": [
+						"158",
+						"42",
+						"33",
+						"174"
+					],
+					"port": "8888",
+					"path": [
+						"auth",
+						"realms",
+						"master",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET entities default service and servicePath - no authentication",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://158.42.33.174:8000/orion/v2/entities",
+					"protocol": "http",
+					"host": [
+						"158",
+						"42",
+						"33",
+						"174"
+					],
+					"port": "8000",
+					"path": [
+						"orion",
+						"v2",
+						"entities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET entities default service and servicePath - token",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJqb2VRWG1Cc2FCenJNeEJDSVJpeHlYMzZrVk5SZmdibVltN0RPRDBiTVUwIn0.eyJleHAiOjE2Mzc1OTU5MTksImlhdCI6MTYzNzU5NTg1OSwianRpIjoiMjAwYzVkZWYtMmQyMS00Zjk1LWI2NjItZDQxNjdkNGMwNzNhIiwiaXNzIjoiaHR0cDovLzE1OC40Mi4zMy4xNzQ6ODg4OC9hdXRoL3JlYWxtcy9tYXN0ZXIiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiM2VkZmM3OGEtNDg0My00ODBhLThlYjAtOWIxODg2MzMwZmUyIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiZGF0YXBvcnRzIiwic2Vzc2lvbl9zdGF0ZSI6IjMyMTM0ZTk1LWFkYmMtNDc4Mi04OGFhLTgwYzhjODhjYjEyOSIsImFjciI6IjEiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiZGVmYXVsdC1yb2xlcy1tYXN0ZXIiLCJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIiwidXNlciJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoicHJvZmlsZSBlbWFpbCIsInNpZCI6IjMyMTM0ZTk1LWFkYmMtNDc4Mi04OGFhLTgwYzhjODhjYjEyOSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwicHJlZmVycmVkX3VzZXJuYW1lIjoidXNlciJ9.pRqt9vRf-VnjmUitG2YXR_qn-zZDwirlsgryLobSKRBQiqR6jFyCMRSH9ivQNHfnGaRgv6QN0vdJ2s_YdrLFRgbTDihSmP-mp7Mu44IBJUnTj6nso0ZPeAfUyktFr1wOb5VlPEET9ykcik8Ndup2W09Y5RUksECezXxjJJGEchfZTFCq05cIOK1WP3xWowjShTg32mdop8NUeBswzZBVTARCCrFFg1cQzM0qBmmLgTRCh3KzeGRjsYkonlU6MeYoAUzNVIuFEfnxMn6tO47r7m7cGe8sfxaesucdfRUyUvNrlJTIDIiEDTmXzYJ97mG_Ncu7tmtU7BPuC9XC5fkmSw",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://158.42.33.174/orion/v2/entities",
+					"protocol": "http",
+					"host": [
+						"158",
+						"42",
+						"33",
+						"174"
+					],
+					"path": [
+						"orion",
+						"v2",
+						"entities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Keycloak authentication test Kong",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "dataports",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "4f41a9ab-d484-49bb-aa92-87aa246dedf2",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "dataports",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://158.42.33.174:8000/auth/realms/master/protocol/openid-connect/token",
+					"protocol": "http",
+					"host": [
+						"158",
+						"42",
+						"33",
+						"174"
+					],
+					"port": "8000",
+					"path": [
+						"auth",
+						"realms",
+						"master",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET entities default service and servicePath - token Kong",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJqb2VRWG1Cc2FCenJNeEJDSVJpeHlYMzZrVk5SZmdibVltN0RPRDBiTVUwIn0.eyJleHAiOjE2MzkwNTIwMTUsImlhdCI6MTYzOTA0ODQxNSwianRpIjoiYjkxZTIxNDQtZjJjYi00M2I4LWFhOWQtZWQ4N2Y0NmMxZDU2IiwiaXNzIjoiaHR0cDovLzE1OC40Mi4zMy4xNzQ6ODAwMC9hdXRoL3JlYWxtcy9tYXN0ZXIiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiM2VkZmM3OGEtNDg0My00ODBhLThlYjAtOWIxODg2MzMwZmUyIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiZGF0YXBvcnRzIiwic2Vzc2lvbl9zdGF0ZSI6IjdiMTJlYTc1LTQwM2EtNDcxMC1hMzVhLWExZTIwNWFmZGExNiIsImFjciI6IjEiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiZGVmYXVsdC1yb2xlcy1tYXN0ZXIiLCJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIiwidXNlciJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoicHJvZmlsZSBlbWFpbCIsInNpZCI6IjdiMTJlYTc1LTQwM2EtNDcxMC1hMzVhLWExZTIwNWFmZGExNiIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJ1c2VyIn0.EjJveCdGPkRUZ_BIPcLisYXAoG0zQg3VGSLpRTjAkgJ44uWLqJ0q4Qu5533-niZVGduXWhVKgtleLQ1TMtTTTCyn0xBtMgvZe8M7fsinVqk9bsizfN-ChXFJ5tmH6REIcFXLGbVu7TWImE8_d3jEpychvGcjb7Qsfm6rZbCVMnA9lknm5sRvP22AbZig7c7ynJRM4QNEloElSuXpT1jtHyKPsrOWqQF7gPLouPE-cO4E5vMXpTMeESiOFaxhKIbPB5k2prL9L4SfFDdmsPwmAPFqiUyhCD3MgIcrivKN-dzar5ZU1d40TwwQJo5Q-h0zTVHzEhf_vh0KJn-DYKheAw",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://158.42.33.174:8000/orion/v2/entities",
+					"protocol": "http",
+					"host": [
+						"158",
+						"42",
+						"33",
+						"174"
+					],
+					"port": "8000",
+					"path": [
+						"orion",
+						"v2",
+						"entities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Keycloak authentication test Kong",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "dataports",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "4f41a9ab-d484-49bb-aa92-87aa246dedf2",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "dataports",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://158.42.33.174:8000/auth/realms/master/protocol/openid-connect/token",
+					"protocol": "http",
+					"host": [
+						"158",
+						"42",
+						"33",
+						"174"
+					],
+					"port": "8000",
+					"path": [
+						"auth",
+						"realms",
+						"master",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "KrakenD test - Metadata registry get data sources",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Fiware-Service",
+						"value": "metadata",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://158.42.33.174:8080/orion/v2/entities?type=DataSource&options=keyValues",
+					"protocol": "http",
+					"host": [
+						"158",
+						"42",
+						"33",
+						"174"
+					],
+					"port": "8080",
+					"path": [
+						"orion",
+						"v2",
+						"entities"
+					],
+					"query": [
+						{
+							"key": "type",
+							"value": "DataSource"
+						},
+						{
+							"key": "options",
+							"value": "keyValues"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "KrakenD - Orion NGSIv2 GET entities",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://158.42.33.174:8080/orion/v2/entities",
+					"protocol": "http",
+					"host": [
+						"158",
+						"42",
+						"33",
+						"174"
+					],
+					"port": "8080",
+					"path": [
+						"orion",
+						"v2",
+						"entities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "KrakenD - Orion NGSIv2 GET entities auth",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJqb2VRWG1Cc2FCenJNeEJDSVJpeHlYMzZrVk5SZmdibVltN0RPRDBiTVUwIn0.eyJleHAiOjE2NDg0NTg2NjYsImlhdCI6MTY0ODQ1NTA2NiwianRpIjoiMGMyNTkwMmItOGVlMi00NzJlLWIxOGItZTZlODViNDBhNzA2IiwiaXNzIjoiaHR0cDovLzE1OC40Mi4zMy4xNzQ6ODg4OC9hdXRoL3JlYWxtcy9tYXN0ZXIiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiM2VkZmM3OGEtNDg0My00ODBhLThlYjAtOWIxODg2MzMwZmUyIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiZGF0YXBvcnRzIiwic2Vzc2lvbl9zdGF0ZSI6IjZjZjUyMjUwLWI5OTYtNGNhYy05YzdmLWQ4ZTdlZDEwZWFkMCIsImFjciI6IjEiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiZGVmYXVsdC1yb2xlcy1tYXN0ZXIiLCJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIiwidXNlciJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoicHJvZmlsZSBlbWFpbCIsInNpZCI6IjZjZjUyMjUwLWI5OTYtNGNhYy05YzdmLWQ4ZTdlZDEwZWFkMCIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJ1c2VyIn0.v7OJINzqIjB-Mm5enkHAdond5UX4ZaDdE_rXZVOmQ6Kzr2LUJAK5sEvzIO1feCEzB6l7fzUrT_iiCGJmFA86BNV3-UD4pfZhYE07w8ZxiYvzafGPAUXW9JUaKkdugOJS-J6PIbAU8XUV7UxsoAoswJMhA95aeEzq4Wr53YaSbr4Zz6q6jkqQncSH8o_DcMofmTBiEzZFyZUvjO2kaKtWcGMmSlRNUpOhwnipsJ16LuV-HZd9RTX7Ocd2xw_DXJUJwi2rJW7A0B6ZM2qUCBUgXvvucsdTLxioXeEk-b10oIWWHj4RhcWdvVHPLPi9t7p84hC3b10zuEyuR1JBfO5fow",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://158.42.33.174:8080/orion/v2/entities",
+					"protocol": "http",
+					"host": [
+						"158",
+						"42",
+						"33",
+						"174"
+					],
+					"port": "8080",
+					"path": [
+						"orion",
+						"v2",
+						"entities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "KrakenD - Orion NGSIv2 GET subscriptions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://158.42.33.174:8080/orion/v2/subscriptions",
+					"protocol": "http",
+					"host": [
+						"158",
+						"42",
+						"33",
+						"174"
+					],
+					"port": "8080",
+					"path": [
+						"orion",
+						"v2",
+						"subscriptions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "KrakenD - Orion NGSIv2 POST entities",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"Room1\",\r\n    \"pressure\": {\r\n        \"metadata\": {},\r\n        \"type\": \"Integer\",\r\n        \"value\": 720\r\n    },\r\n    \"temperature\": {\r\n        \"metadata\": {},\r\n        \"type\": \"Float\",\r\n        \"value\": 23\r\n    },\r\n    \"type\": \"Room\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://158.42.33.174:8080/orion/v2/entities",
+					"protocol": "http",
+					"host": [
+						"158",
+						"42",
+						"33",
+						"174"
+					],
+					"port": "8080",
+					"path": [
+						"orion",
+						"v2",
+						"entities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "KrakenD - Orion DELETE entity",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Fiware-Service",
+						"value": "PIXEL",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Fiware-ServicePath",
+						"value": "/GRSKG",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://158.42.33.174:8080/orion/v2/entities/Room2",
+					"protocol": "http",
+					"host": [
+						"158",
+						"42",
+						"33",
+						"174"
+					],
+					"port": "8080",
+					"path": [
+						"orion",
+						"v2",
+						"entities",
+						"Room2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "KrakenD - Orion DELETE subscription",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Fiware-Service",
+						"value": "PIXEL",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Fiware-ServicePath",
+						"value": "/GRSKG",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://158.42.33.174:8080/orion/v2/subscriptions/5fa2c0a1374a25291f00f80f",
+					"protocol": "http",
+					"host": [
+						"158",
+						"42",
+						"33",
+						"174"
+					],
+					"port": "8080",
+					"path": [
+						"orion",
+						"v2",
+						"subscriptions",
+						"5fa2c0a1374a25291f00f80f"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
