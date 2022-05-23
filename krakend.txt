@@ -11,3 +11,16 @@ Se le tienen que pasar argumentos en el body (x-www-form-urlencoded):
     - scope
     - username
     - password
+
+Para que krakend proteja el endpoint, en krakend.json, en el campo "backend" del endpoint, poner el NOMBRE del servicio docker en vez de localhost.
+Ejemplo:
+        "backend": [
+          {
+            "url_pattern": "/v2/{request}",
+            "encoding": "no-op",
+            "method": "GET",
+            "host": [
+              "http://orion-matilde:1026"
+            ]
+          }
+        ]
