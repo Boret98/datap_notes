@@ -20,7 +20,7 @@ Ejemplo:
             "encoding": "no-op",
             "method": "GET",
             "host": [
-              "http://orion-matilde:1026"
+              "http://orion-fw:1026"
             ]
           }
         ]
