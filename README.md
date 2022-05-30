@@ -28,5 +28,5 @@ Ejemplo:
         ]
         
         
-#OAUTH2
+# OAUTH2
 En el docker-compose, para el servicio oauth2, se le tiene que activar SIEMPRE la flag "restart: unless-stopped", por algun motivo se intenta lanzar antes de que el keycloak se acabe de lanzar, pese a haber usado la flag "depends_on" lo que da un error.
