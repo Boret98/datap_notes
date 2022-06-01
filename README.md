@@ -6,7 +6,7 @@ En 'krakend-keycloak/backend/code/requirements.txt' hay que añadir las siguient
     social-auth-core
 
 A la hora de coger el token, un POST en "https://localhost:443/auth/realms/master/protocol/openid-connect/token"
-Se le tienen que pasar argumentos en el body (x-www-form-urlencoded):
+Se le tienen que pasar argumentos en el body (x-www-form-urlencoded)
     1. client_id
     2. grant_type
     3. client_secret
