@@ -1,0 +1,917 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "DataPorts Automatic Model Training Engine",
+    "description": "API for the Auto training engine developed in the [DataPorts](https://dataports-project.eu/) project. This API enables the training of ML models to support a set of cognitive services useful for Ports. ",
+    "version": "0.1",
+    "x-logo": {
+      "url": "https://www.dataports-project.eu/wp-content/uploads/2020/01/cropped-DataPorts-Logo-1-1.jpg"
+    }
+  },
+  "paths": {
+    "/api/datasets": {
+      "get": {
+        "tags": [
+          "Datasets"
+        ],
+        "summary": "Return a list of datasets",
+        "description": "Datasets already accessible by the service previously imported using the Virtual Data Container or with a previous request to the Metadata broker",
+        "operationId": "get_datasets",
+        "responses": {
+          "200": {
+            "description": "A JSON array of dataset objects",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "example": [
+                  {
+                    "id": 1,
+                    "provider": "ValenciaPort",
+                    "name": "Number of trucks",
+                    "description": "Number of trucks in terminal",
+                    "variables": 20,
+                    "rows": 2000000,
+                    "size": 2,
+                    "last": "10/01/2020",
+                    "tasks": [
+                      "vpc"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/datasets/{id}/variables": {
+      "get": {
+        "tags": [
+          "Datasets"
+        ],
+        "summary": "Return all metadata variables from the dataset with the given id",
+        "operationId": "get_dataset_variables",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Id",
+              "type": "integer"
+            },
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return the variables of the dataset.",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "example": [
+                  {
+                    "id": 1,
+                    "code": "v1",
+                    "name": "Number of loaded containers",
+                    "type": "Numeric",
+                    "description": "Number of loaded containers in terminal",
+                    "missing": "25% (345)"
+                  }
+                ]
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/services": {
+      "get": {
+        "tags": [
+          "Services Management"
+        ],
+        "summary": "Return a list of the already available services",
+        "operationId": "get_services",
+        "responses": {
+          "200": {
+            "description": "An array of JSON objects with the current services information",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "example": [
+                  {
+                    "id": 1,
+                    "name": "Five days docked time",
+                    "description": "Prediction of the docked time (h) of a vessel in the next five days",
+                    "last_trained": "2021-04-10",
+                    "status": "Stopped",
+                    "badge": "",
+                    "disabled": false,
+                    "task": "Anomaly Detection",
+                    "goal_variable": "Trucks",
+                    "temporal_variable": "Date",
+                    "days": 40,
+                    "strategy": "Fast",
+                    "error_metric": "MSE",
+                    "error_value": "0.822",
+                    "training_time": "7",
+                    "running_time": "",
+                    "deploy_datetime": "01/02/2021",
+                    "last_training_datetime": "01/02/2021"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/services/{id}/deploy": {
+      "put": {
+        "tags": [
+          "Services Management"
+        ],
+        "summary": "Deploy a service to receive prediction requests",
+        "operationId": "services_deploy",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Id",
+              "type": "integer"
+            },
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notification of service successfully deployed",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "example": {
+                  "Response": "Service with id deployed. Check the following URL"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/services/{id}/stop": {
+      "put": {
+        "tags": [
+          "Services Management"
+        ],
+        "summary": "Stop an already deployed service",
+        "operationId": "services_stop",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Id",
+              "type": "integer"
+            },
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notification of service successfully stopped",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "example": {
+                  "Response": "Service with id stopped"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/services/{id}": {
+      "get": {
+        "tags": [
+          "Services Management"
+        ],
+        "summary": "Retrieves the current information and status of service with the given id",
+        "operationId": "services_get_by_id",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Id",
+              "type": "integer"
+            },
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "a JSON object with the service current information",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "example": {
+                  "id": 1,
+                  "name": "Five days docked time",
+                  "description": "Prediction of the docked time (h) of a vessel in the next five days",
+                  "last_trained": "2021-04-10",
+                  "status": "Stopped",
+                  "badge": "",
+                  "disabled": false,
+                  "task": "Anomaly Detection",
+                  "goal_variable": "Trucks",
+                  "temporal_variable": "Date",
+                  "days": 40,
+                  "strategy": "Fast",
+                  "error_metric": "MSE",
+                  "error_value": "0.822",
+                  "training_time": "7",
+                  "running_time": "",
+                  "deploy_datetime": "01/02/2021",
+                  "last_training_datetime": "01/02/2021"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Services Management"
+        ],
+        "summary": "Delete a service and the underlying ML models",
+        "operationId": "services_delete",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Id",
+              "type": "integer"
+            },
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Confirmation of service deletion",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "example": {
+                  "Response": "Service with id stopped"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/average_vessel_berth_time/get_time_granularity": {
+      "get": {
+        "tags": [
+          "Utils"
+        ],
+        "summary": "Get Time",
+        "operationId": "get_time_api_average_vessel_berth_time_get_time_granularity_get",
+        "responses": {
+          "200": {
+            "description": "Get the time  granularity",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "example": [
+                  {
+                    "granularity": "day",
+                    "max": 6
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/service/average_berth/train": {
+      "post": {
+        "tags": [
+          "Cognitive Services"
+        ],
+        "summary": "Train a service to predict the average vessel berth time",
+        "description": "This service predicts the potential average berthing time of a port as a whole or of a specific terminal for a future time horizon. The forecast can be defined for the next days, weeks or months..",
+        "operationId": "train_avg_berth",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/api__endpoints__avbt__AverageVesselBerthTime__TrainParams"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Training started of a service to calculate the Average Vessel Berth Time .",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "example": {
+                  "Response": "Training of service with id started at timestamp"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/service/average_berth/predict": {
+      "post": {
+        "tags": [
+          "Cognitive Services"
+        ],
+        "summary": "Predicts the average time for the given time horizon",
+        "operationId": "predict_avg_berth",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/api__endpoints__avbt__AverageVesselBerthTime__PredictParams"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Estimated mean berthing time in hours.",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "example": {
+                  "hours": 1
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/service/vessel_departure/train": {
+      "post": {
+        "tags": [
+          "Cognitive Services"
+        ],
+        "summary": "Train a service to predict the vessel ETD",
+        "description": "Train a model to forecast the Estimated Time of Departure (ETD) of an arriving or already berth vessel. This service requires a historical dataset with the arrival and departure dates of vessels in an specific port and/or terminal.",
+        "operationId": "train_etd",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/api__endpoints__vtde__VesselTimeDepartureEstimator__TrainParams"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Train a new service.",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "example": {
+                  "Response": "Training of service with id started at timestamp"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/service/vessel_departure/predict": {
+      "post": {
+        "tags": [
+          "Cognitive Services"
+        ],
+        "summary": "Predict the time of departure of a given vessel",
+        "operationId": "predict_etd",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/api__endpoints__vtde__VesselTimeDepartureEstimator__PredictParams"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Estimated datetime.",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "example": {
+                  "datetime": "2021/06/06 10:00:00"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/service/port_calls/train": {
+      "post": {
+        "tags": [
+          "Cognitive Services"
+        ],
+        "summary": "Train a model to estimate the number of expected port calls",
+        "description": "This service forecasts  the number of vessel port calls in a certain time horizon. This service requires a dataset with the amount of arrivals to the port by date.",
+        "operationId": "train_port_calls_time",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/api__endpoints__vpcc__VesselPortCallsCalculator__TrainParams"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Training of a Vessel Ports Calls Calculator Started",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "example": {
+                  "Response": "Training of service with id started at timestamp"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/service/port_calls/predict": {
+      "post": {
+        "tags": [
+          "Cognitive Services"
+        ],
+        "summary": "For a given time horizon, predict the number of port calls",
+        "operationId": "predict_port_calls_time",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/api__endpoints__vpcc__VesselPortCallsCalculator__PredictParams"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Estimation of the number of ships",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "example": [
+                  {
+                    "datetime": "2021-01-01 00:00:00",
+                    "pred": 17,
+                    "lower_pred": 13,
+                    "upper_pred": 16
+                  },
+                  {
+                    "datetime": "2021-01-02 00:00:00",
+                    "pred": 17,
+                    "lower_pred": 16,
+                    "upper_pred": 19
+                  }
+                ]
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/get_terminals": {
+      "get": {
+        "tags": [
+          "Utils"
+        ],
+        "summary": "Get Terminals",
+        "operationId": "get_terminals_api_get_terminals_get",
+        "responses": {
+          "200": {
+            "description": "Get the terminals for all ports",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "example": [
+                  {
+                    "port": "Valencia",
+                    "terminals": [
+                      {
+                        "name": "name",
+                        "lines": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tasks": {
+      "get": {
+        "tags": [
+          "Utils"
+        ],
+        "summary": "Get Tasks",
+        "operationId": "get_tasks_api_tasks_get",
+        "responses": {
+          "200": {
+            "description": "Return a list of tasks.",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "example": [
+                  {
+                    "id": "avbt",
+                    "name": "Average Vessel Berth Time",
+                    "description": "This service predicts the potential average berthing time of a port as a whole or of a specific terminal for a future time horizon. The forecast can be defined for the next days, weeks or months.",
+                    "valid": false
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "title": "HTTPValidationError",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            }
+          }
+        }
+      },
+      "TimeUnitsEnum": {
+        "title": "TimeUnitsEnum",
+        "enum": [
+          "days",
+          "weeks",
+          "months"
+        ],
+        "type": "string",
+        "description": "An enumeration."
+      },
+      "ValidationError": {
+        "title": "ValidationError",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "loc": {
+            "title": "Location",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        }
+      },
+      "api__endpoints__avbt__AverageVesselBerthTime__PredictParams": {
+        "title": "PredictParams",
+        "required": [
+          "port",
+          "terminal",
+          "temporal_horizon",
+          "forecast_steps"
+        ],
+        "type": "object",
+        "properties": {
+          "port": {
+            "title": "Port",
+            "type": "string"
+          },
+          "terminal": {
+            "title": "Terminal",
+            "type": "string"
+          },
+          "temporal_horizon": {
+            "title": "Temporal Horizon",
+            "type": "string"
+          },
+          "forecast_steps": {
+            "title": "Forecast Steps",
+            "type": "integer"
+          }
+        }
+      },
+      "api__endpoints__avbt__AverageVesselBerthTime__TrainParams": {
+        "title": "TrainParams",
+        "required": [
+          "name",
+          "description",
+          "dataset_id",
+          "training_strategy",
+          "time_unit",
+          "time_steps"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "dataset_id": {
+            "title": "Dataset Id",
+            "type": "integer"
+          },
+          "training_strategy": {
+            "title": "Training Strategy",
+            "type": "string"
+          },
+          "time_unit": {
+            "$ref": "#/components/schemas/TimeUnitsEnum"
+          },
+          "time_steps": {
+            "title": "Time Steps",
+            "type": "integer"
+          }
+        }
+      },
+      "api__endpoints__vpcc__VesselPortCallsCalculator__PredictParams": {
+        "title": "PredictParams",
+        "required": [
+          "port",
+          "terminal",
+          "temporal_horizon",
+          "forecast_steps"
+        ],
+        "type": "object",
+        "properties": {
+          "port": {
+            "title": "Port",
+            "type": "string"
+          },
+          "terminal": {
+            "title": "Terminal",
+            "type": "string"
+          },
+          "temporal_horizon": {
+            "title": "Temporal Horizon",
+            "type": "string"
+          },
+          "forecast_steps": {
+            "title": "Forecast Steps",
+            "type": "integer"
+          }
+        }
+      },
+      "api__endpoints__vpcc__VesselPortCallsCalculator__TrainParams": {
+        "title": "TrainParams",
+        "required": [
+          "name",
+          "description",
+          "dataset_id",
+          "training_strategy",
+          "configuration"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "dataset_id": {
+            "title": "Dataset Id",
+            "type": "integer"
+          },
+          "training_strategy": {
+            "title": "Training Strategy",
+            "type": "string"
+          },
+          "configuration": {
+            "title": "Configuration",
+            "type": "object"
+          }
+        }
+      },
+      "api__endpoints__vtde__VesselTimeDepartureEstimator__PredictParams": {
+        "title": "PredictParams",
+        "required": [
+          "arrival"
+        ],
+        "type": "object",
+        "properties": {
+          "arrival": {
+            "title": "Arrival",
+            "type": "string"
+          }
+        }
+      },
+      "api__endpoints__vtde__VesselTimeDepartureEstimator__TrainParams": {
+        "title": "TrainParams",
+        "required": [
+          "name",
+          "description",
+          "dataset_id",
+          "training_strategy",
+          "configuration"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "dataset_id": {
+            "title": "Dataset Id",
+            "type": "integer"
+          },
+          "training_strategy": {
+            "title": "Training Strategy",
+            "type": "string"
+          },
+          "configuration": {
+            "title": "Configuration",
+            "type": "object"
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Datasets",
+      "description": "Operations to retrieve  information about the available datasets"
+    },
+    {
+      "name": "Services Management",
+      "description": "Operations to deploy and get information about the trained services"
+    },
+    {
+      "name": "Cognitive Services",
+      "description": "Operations create cognitive services and get predictions"
+    },
+    {
+      "name": "Utils",
+      "description": "Auxiliary operations to support the dashboard execution"
+    }
+  ]
+}
