@@ -38,3 +38,6 @@ Ejemplo:
         
 ## OAUTH2
 En el docker-compose, para el servicio oauth2, se le tiene que activar SIEMPRE la flag "restart: unless-stopped", por algun motivo se intenta lanzar antes de que el keycloak se acabe de lanzar, pese a haber usado la flag "depends_on" lo que da un error.
+
+## MAQUINA REMOTA VPF
+Aparentemente no para ciertos serivicos no basta con que abras el puerto en el firewall, tienes que abrir el puerto en el firewall para el servicio específico o no funciona. Por ejemplo, no basta con abrir el puerto 80, tienes que abrirlo para el servicio http
